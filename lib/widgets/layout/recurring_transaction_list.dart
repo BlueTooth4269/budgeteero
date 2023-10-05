@@ -79,99 +79,102 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
   Widget build(BuildContext context) {
     widget.transactions.sort(widget.transactionOrder.getSortingComparator());
 
-    return CustomScrollView(
-      slivers: [
-        SliverList(
-          delegate: SliverChildListDelegate([
-            Visibility(
-              visible: widget.selectedTransactions.isNotEmpty,
-              child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 5, horizontal: 50),
-                  child: Center(
-                    child: Container(
-                      key: const Key('tileContainer'),
-                      constraints: const BoxConstraints(maxWidth: 400),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Colors.red.withAlpha(150)),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text.rich(
-                              TextSpan(
-                                  text:
-                                      '${widget.selectedTransactions.length} ${widget.selectedTransactions.length > 1 ? 'transactions' : 'transaction'} selected',
-                                  style: const TextStyle(
-                                      fontSize: 15, color: Colors.white)),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Tooltip(
-                            message: 'Clear selection',
-                            child: InkWell(
-                              hoverColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withAlpha(50),
-                              onTap: clearSelection,
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    shape: BoxShape.rectangle),
-                                child: const Icon(
-                                  Icons.clear,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Tooltip(
-                            message: 'Delete selection',
-                            child: InkWell(
-                              hoverColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withAlpha(50),
-                              onTap: () => deleteSelection(context),
-                              child: Container(
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    shape: BoxShape.rectangle),
-                                child: const Icon(
-                                  Icons.delete_forever,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
+    return Column(
+      children: [
+        Visibility(
+          visible: widget.selectedTransactions.isNotEmpty,
+          child: Container(
+              padding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 50),
+              child: Center(
+                child: Container(
+                  key: const Key('tileContainer'),
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.red.withAlpha(150)),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text.rich(
+                          TextSpan(
+                              text:
+                              '${widget.selectedTransactions.length} ${widget.selectedTransactions.length > 1 ? 'transactions' : 'transaction'} selected',
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.white)),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
-                    ),
-                  )),
-            )
-          ]),
+                      Tooltip(
+                        message: 'Clear selection',
+                        child: InkWell(
+                          hoverColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withAlpha(50),
+                          onTap: clearSelection,
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                shape: BoxShape.rectangle),
+                            child: const Icon(
+                              Icons.clear,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Tooltip(
+                        message: 'Delete selection',
+                        child: InkWell(
+                          hoverColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withAlpha(50),
+                          onTap: () => deleteSelection(context),
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                shape: BoxShape.rectangle),
+                            child: const Icon(
+                              Icons.delete_forever,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )),
         ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              if (index < widget.transactions.length) {
-                return RecurringTransactionTile(
-                  widget.transactions[index],
-                  onPrimary: onTilePrimary,
-                  onSecondary: onTileSecondary,
-                  selected: widget.selectedTransactions
-                      .contains(widget.transactions[index]),
-                );
-              }
-              return null;
-            },
-            childCount: widget
-                .transactions.length, // Replace with your actual data length
+        Expanded(
+          child: CustomScrollView(
+            controller: widget.scrollController,
+            slivers: [
+              SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    if (index < widget.transactions.length) {
+                      return RecurringTransactionTile(
+                        widget.transactions[index],
+                        onPrimary: onTilePrimary,
+                        onSecondary: onTileSecondary,
+                        selected: widget.selectedTransactions
+                            .contains(widget.transactions[index]),
+                      );
+                    }
+                    return null;
+                  },
+                  childCount: widget
+                      .transactions.length, // Replace with your actual data length
+                ),
+              ),
+            ],
           ),
         ),
       ],
