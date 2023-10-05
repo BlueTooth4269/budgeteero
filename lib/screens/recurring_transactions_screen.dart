@@ -23,8 +23,6 @@ class _RecurringTransactionsScreenState
     extends State<RecurringTransactionsScreen> {
   final List<RecurringTransaction> selectedTransactions =
       <RecurringTransaction>[];
-  RecurringTransactionOrder recurringTransactionOrder =
-      RecurringTransactionOrder.startDateAscending;
   final ScrollController _scrollController = ScrollController();
 
   void openCreateRecurringTransactionDialog(BuildContext context) {
@@ -82,10 +80,10 @@ class _RecurringTransactionsScreenState
                     {
                       return SortingDropdown<RecurringTransactionOrder>(
                           onOrderChanged: (order) {
-                            setState(() => recurringTransactionOrder = order);
+                            setState(() => dataModel.recurringOrder = order);
                             _scrollController.jumpTo(0);
                           },
-                          sortingOrder: recurringTransactionOrder,
+                          sortingOrder: dataModel.recurringOrder,
                           enumValues: RecurringTransactionOrder.values);
                     }
                   }),
@@ -97,7 +95,7 @@ class _RecurringTransactionsScreenState
                 return RecurringTransactionList(
                   transactions: dataModel.recurringTransactions,
                   selectedTransactions: selectedTransactions,
-                  transactionOrder: recurringTransactionOrder,
+                  transactionOrder: dataModel.recurringOrder,
                   deleteTransactions:
                       (List<RecurringTransaction> recurringTransactions) =>
                           Provider.of<DataModel>(context, listen: false)

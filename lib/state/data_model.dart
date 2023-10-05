@@ -2,6 +2,7 @@ import 'package:budgeteero/models/recurring_transaction.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 
+import '../enums/recurring_transaction_order.dart';
 import '../enums/transaction_order.dart';
 import '../models/initial_balance.dart';
 import '../models/transaction.dart';
@@ -16,7 +17,11 @@ class DataModel extends ChangeNotifier {
       0,
       Utils.dateOnlyUTC(DateTime.timestamp())
           .subtract(const Duration(days: 365)));
-  TransactionOrder _transactionOrder = TransactionOrder.dateDescending;
+  TransactionOrder _balanceOrder = TransactionOrder.dateDescending;
+  TransactionOrder _monthOrder = TransactionOrder.dateAscending;
+  TransactionOrder _futureOrder = TransactionOrder.dateAscending;
+  RecurringTransactionOrder _recurringOrder =
+      RecurringTransactionOrder.startDateAscending;
 
   DataModel() {
     initialiseAllFromFile();
@@ -48,10 +53,31 @@ class DataModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  TransactionOrder get transactionOrder => _transactionOrder;
+  TransactionOrder get balanceOrder => _balanceOrder;
 
-  set transactionOrder(TransactionOrder value) {
-    _transactionOrder = value;
+  set balanceOrder(TransactionOrder value) {
+    _balanceOrder = value;
+    notifyListeners();
+  }
+
+  TransactionOrder get monthOrder => _monthOrder;
+
+  set monthOrder(TransactionOrder value) {
+    _monthOrder = value;
+    notifyListeners();
+  }
+
+  TransactionOrder get futureOrder => _futureOrder;
+
+  set futureOrder(TransactionOrder value) {
+    _futureOrder = value;
+    notifyListeners();
+  }
+
+  RecurringTransactionOrder get recurringOrder => _recurringOrder;
+
+  set recurringOrder(RecurringTransactionOrder value) {
+    _recurringOrder = value;
     notifyListeners();
   }
 

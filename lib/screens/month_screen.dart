@@ -107,10 +107,10 @@ class _MonthScreenState extends State<MonthScreen> {
                     {
                       return SortingDropdown<TransactionOrder>(
                           onOrderChanged: (order) {
-                            dataModel.transactionOrder = order;
+                            dataModel.monthOrder = order;
                             _scrollController.jumpTo(0);
                           },
-                          sortingOrder: dataModel.transactionOrder,
+                          sortingOrder: dataModel.monthOrder,
                           enumValues: TransactionOrder.values);
                     }
                   }),
@@ -122,7 +122,7 @@ class _MonthScreenState extends State<MonthScreen> {
                 return TransactionList(
                   transactions:
                       dataModel.getTransactionsForMonth(_monthAndYear),
-                  transactionOrder: dataModel.transactionOrder,
+                  transactionOrder: dataModel.monthOrder,
                   deleteTransactions: (List<Transaction> transactions) =>
                       Provider.of<DataModel>(context, listen: false)
                           .removeTransactions(transactions),

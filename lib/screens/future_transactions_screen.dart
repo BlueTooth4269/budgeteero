@@ -21,7 +21,6 @@ class FutureTransactionsScreen extends StatefulWidget {
 }
 
 class _FutureTransactionsScreenState extends State<FutureTransactionsScreen> {
-  TransactionOrder futureTransactionOrder = TransactionOrder.dateAscending;
   final ScrollController _scrollController = ScrollController();
 
   void openCreateFutureTransactionDialog(BuildContext context) {
@@ -81,10 +80,10 @@ class _FutureTransactionsScreenState extends State<FutureTransactionsScreen> {
                     {
                       return SortingDropdown<TransactionOrder>(
                           onOrderChanged: (order) {
-                            setState(() => futureTransactionOrder = order);
+                            setState(() => dataModel.futureOrder = order);
                             _scrollController.jumpTo(0);
                           },
-                          sortingOrder: futureTransactionOrder,
+                          sortingOrder: dataModel.futureOrder,
                           enumValues: TransactionOrder.values);
                     }
                   }),
@@ -95,7 +94,7 @@ class _FutureTransactionsScreenState extends State<FutureTransactionsScreen> {
               child: Consumer<DataModel>(builder: (context, dataModel, child) {
                 return TransactionList(
                   transactions: dataModel.futureTransactions,
-                  transactionOrder: futureTransactionOrder,
+                  transactionOrder: dataModel.futureOrder,
                   deleteTransactions: (List<Transaction> transactions) =>
                       Provider.of<DataModel>(context, listen: false)
                           .removeTransactions(transactions),

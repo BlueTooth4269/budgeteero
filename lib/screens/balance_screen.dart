@@ -116,10 +116,10 @@ class _BalanceScreenState extends State<BalanceScreen> {
                       {
                         return SortingDropdown<TransactionOrder>(
                             onOrderChanged: (order) {
-                              dataModel.transactionOrder = order;
+                              dataModel.balanceOrder = order;
                               _scrollController.jumpTo(0);
                             },
-                            sortingOrder: dataModel.transactionOrder,
+                            sortingOrder: dataModel.balanceOrder,
                             enumValues: TransactionOrder.values);
                       }
                     }),
@@ -132,7 +132,7 @@ class _BalanceScreenState extends State<BalanceScreen> {
                   return TransactionList(
                     transactions: dataModel.pastTransactions,
                     selectedTransactions: selectedTransactions,
-                    transactionOrder: dataModel.transactionOrder,
+                    transactionOrder: dataModel.balanceOrder,
                     deleteTransactions: (List<Transaction> transactions) =>
                         Provider.of<DataModel>(context, listen: false)
                             .removeTransactions(transactions),
