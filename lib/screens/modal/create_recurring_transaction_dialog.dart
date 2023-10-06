@@ -441,6 +441,7 @@ class _CreateRecurringTransactionDialogState
                 onPressed: () => submitForm(),
                 child: const Text('Submit'),
               ),
+              const SizedBox(width: 5),
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: const Text('Cancel'),

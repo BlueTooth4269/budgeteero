@@ -69,7 +69,7 @@ class _TransactionListState extends State<TransactionList> {
     showDialog<bool>(
       context: context,
       builder: (BuildContext context) =>
-          const ConfirmationDialog(message: 'Clear selection?'),
+          const ConfirmationDialog(caption: 'Clear selection?'),
     ).then((confirmed) {
       if (confirmed == true) {
         setState(() => widget.selectedTransactions.clear());
@@ -81,7 +81,7 @@ class _TransactionListState extends State<TransactionList> {
     showDialog<bool>(
       context: context,
       builder: (BuildContext context) =>
-          const ConfirmationDialog(message: 'Delete selected transactions?'),
+          const ConfirmationDialog(caption: 'Delete selected transactions?'),
     ).then((confirmed) {
       if (confirmed == true) {
         widget.deleteTransactions(widget.selectedTransactions);

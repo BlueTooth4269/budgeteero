@@ -52,7 +52,7 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
     showDialog<bool>(
       context: context,
       builder: (BuildContext context) =>
-          const ConfirmationDialog(message: 'Clear selection?'),
+          const ConfirmationDialog(caption: 'Clear selection?'),
     ).then((confirmed) {
       if (confirmed == true) {
         setState(() => widget.selectedTransactions.clear());
@@ -63,8 +63,9 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
   void deleteSelection(context) {
     showDialog<bool>(
       context: context,
-      builder: (BuildContext context) =>
-          const ConfirmationDialog(message: 'Delete selected transactions?'),
+      builder: (BuildContext context) => const ConfirmationDialog(
+          caption: 'Delete selected recurring transactions?',
+          subCaption: 'All individual transactions created in this way will also be removed.'),
     ).then((confirmed) {
       if (confirmed == true) {
         widget.deleteTransactions(widget.selectedTransactions);
@@ -84,14 +85,13 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
         Visibility(
           visible: widget.selectedTransactions.isNotEmpty,
           child: Container(
-              padding:
-              const EdgeInsets.symmetric(vertical: 5, horizontal: 50),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 50),
               child: Center(
                 child: Container(
                   key: const Key('tileContainer'),
                   constraints: const BoxConstraints(maxWidth: 400),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10, vertical: 4),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Colors.red.withAlpha(150)),
@@ -101,7 +101,7 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
                         child: Text.rich(
                           TextSpan(
                               text:
-                              '${widget.selectedTransactions.length} ${widget.selectedTransactions.length > 1 ? 'transactions' : 'transaction'} selected',
+                                  '${widget.selectedTransactions.length} ${widget.selectedTransactions.length > 1 ? 'transactions' : 'transaction'} selected',
                               style: const TextStyle(
                                   fontSize: 15, color: Colors.white)),
                           textAlign: TextAlign.left,
@@ -170,8 +170,8 @@ class _RecurringTransactionListState extends State<RecurringTransactionList> {
                     }
                     return null;
                   },
-                  childCount: widget
-                      .transactions.length, // Replace with your actual data length
+                  childCount: widget.transactions
+                      .length, // Replace with your actual data length
                 ),
               ),
             ],
