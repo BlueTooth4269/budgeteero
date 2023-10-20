@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: "903dd4ba13eae7cef64acc480e91bf54c3ddd23b5b90b639c170f3911e489620"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.0"
   fixnum:
     dependency: transitive
     description:
@@ -262,6 +270,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.2"
+  flutter_form_builder:
+    dependency: "direct main"
+    description:
+      name: flutter_form_builder
+      sha256: "8973beed34b6d951d36bf688b52e9e3040b47b763c35c320bd6f4c2f6b13f3a2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -283,8 +299,21 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.2"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      sha256: f185ac890306b5779ecbd611f52502d8d4d63d27703ef73161ca0407e815f02c
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.16"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -727,4 +756,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.1.0-185.0.dev <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.10.0"

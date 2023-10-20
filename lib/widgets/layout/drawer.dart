@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class BudgeteeroDrawer extends StatelessWidget {
-  static final drawerRoutes = {
-    "Balance": "/",
-    "Month": "/month",
-    "Future Transactions": "/future",
-    "Recurring Transactions": "/recurring",
-  };
+import '../../util/routes.dart';
 
+class BudgeteeroDrawer extends StatelessWidget {
   const BudgeteeroDrawer({super.key});
 
   @override
@@ -21,7 +16,7 @@ class BudgeteeroDrawer extends StatelessWidget {
             height: 56,
           ),
           const SizedBox(height: 8),
-          ...drawerRoutes.entries.map((route) {
+          ...Routes.drawerRoutes.entries.map((route) {
             final bool routeIsActive =
                 ModalRoute.of(context)!.settings.name == route.value;
             return Padding(

@@ -6,17 +6,17 @@ import '../util/custom_date_time_mapper.dart';
 import '../util/utils.dart';
 import 'initial_balance.dart';
 
-part 'persistence_model.mapper.dart';
+part 'data_persistence_model.mapper.dart';
 
 @MappableClass(includeCustomMappers: [CustomDateTimeMapper()])
-class PersistenceModel with PersistenceModelMappable {
-  final List<Transaction> transactions;
+class DataPersistenceModel with DataPersistenceModelMappable {
   final InitialBalance initialBalance;
+  final List<Transaction> transactions;
   final List<RecurringTransaction> recurringTransactions;
 
-  PersistenceModel(
-      {List<Transaction>? transactions,
-      InitialBalance? initialBalance,
+  DataPersistenceModel(
+      {InitialBalance? initialBalance,
+      List<Transaction>? transactions,
       List<RecurringTransaction>? recurringTransactions})
       : transactions = transactions ?? <Transaction>[],
         recurringTransactions =

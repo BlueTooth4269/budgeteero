@@ -59,6 +59,17 @@ class RecurringTransaction with RecurringTransactionMappable {
         .toList();
   }
 
+  static RecurringTransaction copy(RecurringTransaction original) {
+    return RecurringTransaction(
+        id: original.id,
+        startDate: original.startDate,
+        amount: original.amount,
+        intervalType: original.intervalType,
+        description: original.description,
+        transactionPartner: original.transactionPartner,
+        transactions: [...original.transactions]);
+  }
+
   //start and end are inclusive
   List<Transaction> getTransactionsForPeriod({DateTime? start, DateTime? end}) {
     start = start ?? _startDate;
@@ -102,13 +113,53 @@ class RecurringTransaction with RecurringTransactionMappable {
     }
   }
 
-  @override
-  bool operator ==(Object other) =>
-      other.runtimeType == runtimeType &&
-      id == (other as RecurringTransaction).id;
+  bool containsString(String string) {
+    string = string.toLowerCase();
+    return (string.isEmpty ||
+            DateFormat('dd.MM.yyyy')
+                .format(startDate)
+                .toLowerCase()
+                .contains(string) ||
+            DateFormat('dd/MM/yyyy')
+                .format(startDate)
+                .toLowerCase()
+                .contains(string) ||
+            DateFormat('dd-MM-yyyy')
+                .format(startDate)
+                .toLowerCase()
+                .contains(string) ||
+            transactionPartner.toLowerCase().contains(string) ||
+            description.toLowerCase().contains(string) ||
+            amount.toString().toLowerCase().contains(string)) ||
+        endingString.toLowerCase().contains(string) ||
+        intervalType.label.toLowerCase().contains(string) ||
+        transactions.any((t) => t.containsString(string));
+  }
 
   @override
-  int get hashCode => id.hashCode;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is RecurringTransaction &&
+            runtimeType == other.runtimeType &&
+            _startDate == other._startDate &&
+            id == other.id &&
+            amount == other.amount &&
+            intervalType == other.intervalType &&
+            description == other.description &&
+            transactionPartner == other.transactionPartner &&
+            transactions == other.transactions;
+  }
+
+  @override
+  int get hashCode {
+    return _startDate.hashCode ^
+        id.hashCode ^
+        amount.hashCode ^
+        intervalType.hashCode ^
+        description.hashCode ^
+        transactionPartner.hashCode ^
+        transactions.hashCode;
+  }
 }
 
 @MappableClass()
@@ -138,6 +189,18 @@ class RepetitionLimitedRecurringTransaction extends RecurringTransaction
       required this.repetitions})
       : super.createNew();
 
+  static copy(RepetitionLimitedRecurringTransaction original) {
+    return RepetitionLimitedRecurringTransaction(
+        id: original.id,
+        startDate: original.startDate,
+        amount: original.amount,
+        intervalType: original.intervalType,
+        description: original.description,
+        transactionPartner: original.transactionPartner,
+        transactions: [...original.transactions],
+        repetitions: original.repetitions);
+  }
+
   @override
   List<DateTime> _getDatesForPeriod(DateTime start, DateTime end) {
     List<DateTime> dates = [];
@@ -154,6 +217,27 @@ class RepetitionLimitedRecurringTransaction extends RecurringTransaction
       rep++;
     }
     return dates;
+  }
+
+  @override
+  bool containsString(String string) {
+    string = string.toLowerCase();
+    return super.containsString(string) ||
+        repetitions.toString().toLowerCase().contains(string);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        super == other &&
+            other is RepetitionLimitedRecurringTransaction &&
+            runtimeType == other.runtimeType &&
+            repetitions == other.repetitions;
+  }
+
+  @override
+  int get hashCode {
+    return super.hashCode ^ repetitions.hashCode;
   }
 }
 
@@ -185,6 +269,18 @@ class EndDateLimitedRecurringTransaction extends RecurringTransaction
       required this.endDate})
       : super.createNew();
 
+  static copy(EndDateLimitedRecurringTransaction original) {
+    return EndDateLimitedRecurringTransaction(
+        id: original.id,
+        startDate: original.startDate,
+        amount: original.amount,
+        intervalType: original.intervalType,
+        description: original.description,
+        transactionPartner: original.transactionPartner,
+        transactions: [...original.transactions],
+        endDate: original.endDate);
+  }
+
   @override
   List<DateTime> _getDatesForPeriod(DateTime start, DateTime end) {
     List<DateTime> dates = [];
@@ -201,5 +297,34 @@ class EndDateLimitedRecurringTransaction extends RecurringTransaction
       rep++;
     }
     return dates;
+  }
+
+  @override
+  bool containsString(String string) {
+    string = string.toLowerCase();
+    return super.containsString(string) ||
+        DateFormat('dd.MM.yyyy')
+            .format(endDate)
+            .toLowerCase()
+            .contains(string) ||
+        DateFormat('dd/MM/yyyy')
+            .format(endDate)
+            .toLowerCase()
+            .contains(string) ||
+        DateFormat('dd-MM-yyyy').format(endDate).toLowerCase().contains(string);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        super == other &&
+            other is EndDateLimitedRecurringTransaction &&
+            runtimeType == other.runtimeType &&
+            endDate == other.endDate;
+  }
+
+  @override
+  int get hashCode {
+    return super.hashCode ^ endDate.hashCode;
   }
 }

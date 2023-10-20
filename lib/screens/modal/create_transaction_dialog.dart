@@ -57,6 +57,7 @@ class _CreateTransactionDialogState extends State<CreateTransactionDialog> {
     _amountController.dispose();
     _transactionPartnerController.dispose();
     _dateController.dispose();
+    _descriptionFocusNode.dispose();
     _dateFocusNode.dispose();
   }
 

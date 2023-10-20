@@ -10,4 +10,8 @@ class InitialBalance with InitialBalanceMappable {
   DateTime startDate;
 
   InitialBalance(this.balance, this.startDate);
+
+  bool equals(InitialBalance other) {
+    return other.balance == balance && other.startDate == startDate;
+  }
 }

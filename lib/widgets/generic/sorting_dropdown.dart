@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SortingDropdown<T extends SortingDropdownEnum> extends StatelessWidget {
+import '../layout/list_title_bar.dart';
+
+class SortingDropdown<T extends SortingType> extends StatelessWidget {
   final T sortingOrder;
   final void Function(T) onOrderChanged;
   final List<T> enumValues;
@@ -14,38 +16,37 @@ class SortingDropdown<T extends SortingDropdownEnum> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<T>(
-        tooltip: 'Sort By',
-        elevation: 1,
-        itemBuilder: (context) {
-          return enumValues.map((enumValue) {
-            return PopupMenuItem(
-              height: 40,
-              value: enumValue,
-              child: Text(enumValue.label,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary)),
-            );
-          }).toList();
-        },
-        onSelected: onOrderChanged,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(sortingOrder.label,
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary)),
-            ),
-            Icon(Icons.arrow_drop_down,
-                color: Theme.of(context).colorScheme.primary),
-          ],
-        ));
+    return Tooltip(
+      message: 'Sort By',
+      waitDuration: const Duration(milliseconds: 500),
+      child: PopupMenuButton<T>(
+        tooltip: '',
+          elevation: 1,
+          itemBuilder: (context) {
+            return enumValues.map((enumValue) {
+              return PopupMenuItem(
+                height: 40,
+                value: enumValue,
+                child: Text(enumValue.label,
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary)),
+              );
+            }).toList();
+          },
+          onSelected: onOrderChanged,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 12, top: 12, bottom: 12, right: 8),
+                child: Text(sortingOrder.label,
+                    style:
+                        TextStyle(color: Theme.of(context).colorScheme.primary)),
+              ),
+              Icon(Icons.arrow_drop_down,
+                  color: Theme.of(context).colorScheme.primary),
+            ],
+          )),
+    );
   }
-}
-
-abstract class SortingDropdownEnum<T> implements Enum {
-  String get label;
-  Comparator<T> getSortingComparator();
 }

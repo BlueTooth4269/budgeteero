@@ -1,4 +1,5 @@
 import 'package:dart_mappable/dart_mappable.dart';
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../util/custom_date_time_mapper.dart';
@@ -30,4 +31,15 @@ class Transaction with TransactionMappable {
 
   @override
   int get hashCode => id.hashCode;
+
+  bool containsString(String string) {
+    string = string.toLowerCase();
+    return (string.isEmpty ||
+        DateFormat('dd.MM.yyyy').format(date).toLowerCase().contains(string) ||
+        DateFormat('dd/MM/yyyy').format(date).toLowerCase().contains(string) ||
+        DateFormat('dd-MM-yyyy').format(date).toLowerCase().contains(string) ||
+        transactionPartner.toLowerCase().contains(string) ||
+        description.toLowerCase().contains(string) ||
+        amount.toString().toLowerCase().contains(string));
+  }
 }

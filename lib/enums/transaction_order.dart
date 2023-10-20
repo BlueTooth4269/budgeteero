@@ -1,7 +1,7 @@
 import '../models/transaction.dart';
-import '../widgets/generic/sorting_dropdown.dart';
+import '../widgets/layout/list_title_bar.dart';
 
-enum TransactionOrder implements SortingDropdownEnum<Transaction> {
+enum TransactionOrder implements SortingType<Transaction> {
   dateDescending('Date (Desc)'),
   dateAscending('Date (Asc)'),
   amountDescending('Amount (Desc)'),

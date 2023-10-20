@@ -41,6 +41,7 @@ class _SetInitialBalanceDialogState extends State<SetInitialBalanceDialog> {
     super.dispose();
     _balanceController.dispose();
     _startDateController.dispose();
+    _balanceFocusNode.dispose();
     _dateFocusNode.dispose();
   }
 

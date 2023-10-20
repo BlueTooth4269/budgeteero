@@ -1,8 +1,8 @@
 import 'package:budgeteero/models/recurring_transaction.dart';
 
-import '../widgets/generic/sorting_dropdown.dart';
+import '../widgets/layout/list_title_bar.dart';
 
-enum RecurringTransactionOrder implements SortingDropdownEnum<RecurringTransaction> {
+enum RecurringTransactionOrder implements SortingType<RecurringTransaction> {
   startDateDescending('Start Date (Desc)'),
   startDateAscending('Start Date (Asc)'),
   amountDescending('Amount (Desc)'),

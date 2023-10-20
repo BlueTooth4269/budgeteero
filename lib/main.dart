@@ -1,11 +1,8 @@
-import 'package:budgeteero/screens/future_transactions_screen.dart';
-import 'package:budgeteero/screens/recurring_transactions_screen.dart';
 import 'package:budgeteero/state/data_model.dart';
+import 'package:budgeteero/state/settings_model.dart';
+import 'package:budgeteero/util/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'screens/balance_screen.dart';
-import 'screens/month_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,8 +13,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => DataModel(),
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider<SettingsModel>(
+              create: (_) => SettingsModel(), lazy: false),
+          ChangeNotifierProxyProvider<SettingsModel, DataModel>(
+            create: (_) => DataModel(),
+            update: (_, SettingsModel settingsModel, DataModel? dataModel) {
+              if (settingsModel.finishedLoadingFromFile) {
+                dataModel!
+                    .initialiseDataFromFile(settingsModel.currentSaveLocation);
+              }
+              return dataModel!;
+            },
+          ),
+        ],
         child: MaterialApp(
           title: 'Budgeteero',
           theme: ThemeData(
@@ -28,14 +38,7 @@ class MyApp extends StatelessWidget {
                   IconThemeData(color: Theme.of(context).colorScheme.onPrimary),
             ),
           ),
-          routes: {
-            '/': (context) => const BalanceScreen(title: 'Balance'),
-            '/month': (context) => const MonthScreen(title: 'Month'),
-            '/future': (context) =>
-                const FutureTransactionsScreen(title: 'Future Transactions'),
-            '/recurring': (context) => const RecurringTransactionsScreen(
-                title: 'Recurring Transactions')
-          },
+          routes: Routes.routingTable,
         ));
   }
 }
