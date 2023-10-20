@@ -1,5 +1,5 @@
-import 'dart:math';
 
+import 'package:budgeteero/widgets/layout/search_field.dart';
 import 'package:flutter/material.dart';
 
 import '../generic/sorting_dropdown.dart';
@@ -86,63 +86,12 @@ class _ListTitleBarState<T extends SortingType> extends State<ListTitleBar<T>> {
                 ),
               ],
             ),
-            AnimatedContainer(
-              width: _searchFieldHasFocus
-                  ? min(202, constraints.maxWidth - titleWidth)
-                  : 40,
-              duration: const Duration(milliseconds: 80),
-              child: SizedBox(
-                height: 44,
-                child: TextField(
-                  focusNode: _searchFocusNode,
-                  controller: _searchFieldController,
-                  decoration: InputDecoration(
-                    fillColor: _searchFieldController.text.isNotEmpty &&
-                            !_searchFieldHasFocus
-                        ? Theme.of(context).colorScheme.primary
-                        : Theme.of(context).colorScheme.background,
-                    filled: true,
-                    prefixIcon: MouseRegion(
-                        cursor: _searchFieldHasFocus
-                            ? MouseCursor.defer
-                            : SystemMouseCursors.click,
-                        child: Icon(
-                          _searchFieldController.text.isNotEmpty &&
-                                  !_searchFieldHasFocus
-                              ? Icons.manage_search
-                              : Icons.search,
-                          color: _searchFieldController.text.isNotEmpty &&
-                                  !_searchFieldHasFocus
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.primary,
-                        )),
-                    suffixIcon: _searchFieldController.text.isNotEmpty &&
-                            _searchFieldHasFocus
-                        ? GestureDetector(
-                            onTapDown: (_) {
-                              _searchFieldController.clear();
-                            },
-                            child: MouseRegion(
-                                cursor: SystemMouseCursors.click,
-                                child: Icon(
-                                  Icons.clear,
-                                  size: 22,
-                                  color: Theme.of(context).hintColor,
-                                )),
-                          )
-                        : null,
-                    contentPadding: const EdgeInsets.all(10),
-                    border: _searchFieldHasFocus
-                        ? const OutlineInputBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(8.0)))
-                        : InputBorder.none,
-                    hintText: 'Search',
-                    hintStyle: TextStyle(
-                        color: Theme.of(context).hintColor.withAlpha(100)),
-                  ),
-                ),
-              ),
+            SearchField(
+              searchFieldHasFocus: _searchFieldHasFocus,
+              titleWidth: titleWidth,
+              searchFocusNode: _searchFocusNode,
+              searchFieldController: _searchFieldController,
+              constraints: constraints,
             ),
           ],
         );
